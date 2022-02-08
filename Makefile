@@ -1,6 +1,8 @@
 THIS_MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 THIS_MAKEFILE_DIR := $(patsubst %/,%,$(dir $(THIS_MAKEFILE_PATH)))
 
+all: install
+
 bin:
 	@mkdir -p "${HOME}/.bin"
 	@cp "${THIS_MAKEFILE_DIR}/bin/fzf-notes-bin" "${HOME}/.bin/fzf-notes-bin"
@@ -10,6 +12,5 @@ install: bin
 	@echo "Done."
 	@echo "Please source ~/.fzf-notes.zsh"
 
-all: install
 
-.PHONY: bin install
+.PHONY: bin install all
