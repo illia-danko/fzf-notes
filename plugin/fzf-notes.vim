@@ -40,8 +40,7 @@ function s:sys_copy_cmd() abort
     return "<undefind>"
   endif
   if system("uname") =~ "Darwin"
-    echom "The operation system is not supported."
-    return "<undefind>"
+    return "pbcopy"
   endif
   if $XDG_SESSION_TYPE =~ "wayland"
     return "wl-copy"
