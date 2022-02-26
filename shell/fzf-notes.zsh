@@ -26,7 +26,8 @@ command -v fzf >/dev/null 2>&1 || return
 [ -z "${FZF_COLLECTION_BIN-}" ] && FZF_COLLECTION_BIN="${HOME}/.bin/fzf-notes-bin"
 [ -z "${FZF_NOTES_PREVIEW_WINDOW-}" ] && FZF_NOTES_PREVIEW_WINDOW="nohidden"
 [ -z "${FZF_NOTES_COPY_COMMAND-}" ] && FZF_NOTES_COPY_COMMAND="wl-copy"
-[ $XDG_SESSION_TYPE = "x11" ] && FZF_NOTES_COPY_COMMAND="xclip -selection c"
+[ "$XDG_SESSION_TYPE" = "x11" ] && FZF_NOTES_COPY_COMMAND="xclip -selection c"
+[ "$(uname)" = "Darwin" ] && FZF_NOTES_COPY_COMMAND="pbcopy"
 [ -z "${FZF_NOTES_RG_COMMAND-}" ] && FZF_NOTES_RG_COMMAND="rg \
     --no-column \
     --line-number \
