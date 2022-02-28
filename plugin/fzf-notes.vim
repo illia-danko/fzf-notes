@@ -76,7 +76,7 @@ command! -nargs=* -bang FzfNotes call fzf#run(
         \ "--multi",
         \ "--query=" . <q-args>,
         \ "--expect=" . s:new_note_key,
-        \ "--bind=". s:copy_key . ":execute-silent(echo {3..} | " . s:copy_cmd . ")",
+        \ "--bind=". s:copy_key . ":execute-silent(echo -n {3..} | " . s:copy_cmd . ")",
         \ "--header=" . s:copy_key . ":copy, " . s:new_note_key . ":new",
         \ "--preview=" . s:preview_cmd,
         \ "--preview-window=" . s:preview_window,

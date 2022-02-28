@@ -58,7 +58,7 @@ function fzf_notes {
         --multi \
         --query='"$*"' \
         --expect='"$new_note_key"' \
-        --bind '"${copy_key}:execute-silent(echo {3..} | ${FZF_NOTES_COPY_COMMAND})"' \
+        --bind '"${copy_key}:execute-silent(echo -n {3..} | ${FZF_NOTES_COPY_COMMAND})"' \
         --header='"${copy_key}:copy, ${new_note_key}:new"' \
         --preview='"${FZF_COLLECTION_BIN} -np ${FZF_NOTES_DIR} {1} {2} ${FZF_PREVIEW_LINES}"' \
         --preview-window='${FZF_NOTES_PREVIEW_WINDOW}' \
