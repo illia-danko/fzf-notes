@@ -63,7 +63,15 @@ let s:new_note_key = len($FZF_NOTES_NEW_NOTE_KEY) ? $FZF_NOTES_NEW_NOTE_KEY : "c
 let s:preview_window = len($FZF_NOTES_PREVIEW_WINDOW) ? $FZF_NOTES_PREVIEW_WINDOW : "nohidden|hidden,down"
 let s:preview_threshold = len($FZF_NOTES_PREVIEW_THRESHOLD) ? $FZF_NOTES_PREVIEW_THRESHOLD : "160"
 let s:rg_cmd = len($FZF_NOTES_RG_COMMAND) ? $FZF_NOTES_RG_COMMAND :
-      \ "rg --no-column --line-number --no-heading --color=always --smart-case -- '\\S'"
+      \ "rg "
+      \ "--no-column " .
+      \ "--line-number " .
+      \ "--no-heading"  .
+      \ "--color=always " .
+      \ "--colors=match:none " .
+      \ "--smart-case " .
+      \ "-- " .
+      \ "'\\S'"
 
 let s:preview_cmd = s:collection_bin . " -np " . $FZF_NOTES_DIR . " {1} {2} 40"
 

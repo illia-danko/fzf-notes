@@ -34,6 +34,7 @@ command -v fzf >/dev/null 2>&1 || return
     --line-number \
     --no-heading \
     --color=always \
+    --colors='match:none' \
     --smart-case \
     -- '\S'"
 
