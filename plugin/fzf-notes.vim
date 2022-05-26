@@ -60,7 +60,8 @@ if s:copy_cmd == "<undefind>"
 endif
 let s:copy_key = len($FZF_NOTES_COPY_KEY) ? $FZF_NOTES_COPY_KEY : "alt-w"
 let s:new_note_key = len($FZF_NOTES_NEW_NOTE_KEY) ? $FZF_NOTES_NEW_NOTE_KEY : "ctrl-o"
-let s:preview_window = len($FZF_NOTES_PREVIEW_WINDOW) ? $FZF_NOTES_PREVIEW_WINDOW : "nohidden"
+let s:preview_window = len($FZF_NOTES_PREVIEW_WINDOW) ? $FZF_NOTES_PREVIEW_WINDOW : "nohidden|hidden,down"
+let s:preview_threshold = len($FZF_NOTES_PREVIEW_THRESHOLD) ? $FZF_NOTES_PREVIEW_THRESHOLD : "160"
 let s:rg_cmd = len($FZF_NOTES_RG_COMMAND) ? $FZF_NOTES_RG_COMMAND :
       \ "rg --no-column --line-number --no-heading --color=always --smart-case -- '\\S'"
 
@@ -79,7 +80,7 @@ command! -nargs=* -bang FzfNotes call fzf#run(
         \ "--bind=". s:copy_key . ":execute-silent(echo -n {3..} | " . s:copy_cmd . ")",
         \ "--header=" . s:copy_key . ":copy, " . s:new_note_key . ":new",
         \ "--preview=" . s:preview_cmd,
-        \ "--preview-window=" . s:preview_window,
+        \ "--preview-window=" . <SID>preview_window(),
         \ ] }, <bang>0)
       \ )
 
@@ -102,6 +103,17 @@ function s:jump(fileinfo) abort
   let linenum = "+" . parties[1]
   let name = $FZF_NOTES_DIR . "/" . parties[0]
   exec "edit " . linenum . " " . name
+endfunction
+
+function s:preview_window() abort
+  let states = split(s:preview_window, "|")
+  if len(states) == 1 || len(states) > 2
+    return s:preview_window
+  endif
+  if winwidth(0) < str2nr(s:preview_threshold)
+    return states[1]
+  endif
+  return states[0]
 endfunction
 
 let &cpo = s:cpo_save

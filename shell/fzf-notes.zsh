@@ -24,7 +24,8 @@ command -v fzf >/dev/null 2>&1 || return
 [ -z "${FZF_NOTES_FZF_COMMAND-}" ] && FZF_NOTES_FZF_COMMAND="fzf"
 [ -z "${FZF_PREVIEW_LINES-}"] && FZF_PREVIEW_LINES="14"
 [ -z "${FZF_COLLECTION_BIN-}" ] && FZF_COLLECTION_BIN="${HOME}/.bin/fzf-notes-bin"
-[ -z "${FZF_NOTES_PREVIEW_WINDOW-}" ] && FZF_NOTES_PREVIEW_WINDOW="nohidden"
+[ -z "${FZF_NOTES_PREVIEW_WINDOW-}" ] && FZF_NOTES_PREVIEW_WINDOW="nohidden|hidden,down"
+[ -z "${FZF_NOTES_PREVIEW_THRESHOLD-}" ] && FZF_NOTES_PREVIEW_THRESHOLD="160"
 [ -z "${FZF_NOTES_COPY_COMMAND-}" ] && FZF_NOTES_COPY_COMMAND="wl-copy"
 [ "$XDG_SESSION_TYPE" = "x11" ] && FZF_NOTES_COPY_COMMAND="xclip -selection c"
 [ "$(uname)" = "Darwin" ] && FZF_NOTES_COPY_COMMAND="pbcopy"
@@ -46,6 +47,14 @@ function fzf_notes_redraw_prompt {
 }
 zle -N fzf_notes_redraw_prompt
 
+function fzf_notes_preview {
+    states=("${(s[|])FZF_NOTES_PREVIEW_WINDOW}")
+    [ "${#states[@]}" -eq 1 ] && echo "${FZF_NOTES_PREVIEW_WINDOW}" && return
+    [ "${#states[@]}" -gt 2 ] && echo "${FZF_NOTES_PREVIEW_WINDOW}" && return
+    [ $(tput cols) -lt "${FZF_NOTES_PREVIEW_THRESHOLD}" ] && echo "${states[2]}" && return
+    echo "${states[1]}"
+}
+
 function fzf_notes {
     local copy_key=${FZF_NOTES_COPY_KEY:-alt-w}
     local new_note_key=${FZF_NOTES_NEW_NOTE_KEY:-ctrl-o}
@@ -61,7 +70,7 @@ function fzf_notes {
         --bind '"${copy_key}:execute-silent(echo -n {3..} | ${FZF_NOTES_COPY_COMMAND})"' \
         --header='"${copy_key}:copy, ${new_note_key}:new"' \
         --preview='"${FZF_COLLECTION_BIN} -np ${FZF_NOTES_DIR} {1} {2} ${FZF_PREVIEW_LINES}"' \
-        --preview-window='${FZF_NOTES_PREVIEW_WINDOW}' \
+        --preview-window=$(fzf_notes_preview) \
     )
     if [[ -z "$lines" ]]; then
         zle && zle fzf_notes_redraw_prompt
