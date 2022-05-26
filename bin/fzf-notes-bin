@@ -3,10 +3,8 @@
 from sys import argv, stdin, stdout
 from os.path import join
 
-
 PURPLE = "\033[35m"
-RED = "\033[31m"
-BOLD = "\033[;1m"
+REVERSE = "\033[;7m"
 RESET = "\033[0;0m"
 
 
@@ -26,8 +24,9 @@ def notes_preview(filename, line, height):
             if line - linenum > (height / 2 - 1):
                 continue
             if linenum == line:
-                line_content = BOLD + RED + line_content + RESET
+                line_content = REVERSE + line_content + RESET
             stdout.write(line_content)
+
 
 if __name__ == "__main__":
     mode = argv[1]
