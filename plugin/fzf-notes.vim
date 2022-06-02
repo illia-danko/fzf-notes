@@ -59,6 +59,7 @@ if s:copy_cmd == "<undefind>"
   finish
 endif
 let s:copy_key = len($FZF_NOTES_COPY_KEY) ? $FZF_NOTES_COPY_KEY : "alt-w"
+let s:fzf_prompt = len($FZF_NOTES_PROMPT) ? $FZF_NOTES_PROMPT : "Notes> "
 let s:new_note_key = len($FZF_NOTES_NEW_NOTE_KEY) ? $FZF_NOTES_NEW_NOTE_KEY : "ctrl-o"
 let s:preview_window = len($FZF_NOTES_PREVIEW_WINDOW) ? $FZF_NOTES_PREVIEW_WINDOW : "nohidden|hidden,down"
 let s:preview_threshold = len($FZF_NOTES_PREVIEW_THRESHOLD) ? $FZF_NOTES_PREVIEW_THRESHOLD : "160"
@@ -77,6 +78,7 @@ command! -nargs=* -bang FzfNotes call fzf#run(
       \ fzf#wrap({"sink*": function("<SID>handler"),
       \ "source": join([s:rg_cmd, " ", $FZF_NOTES_DIR, ' | ', s:collection_bin, " -ns ", $FZF_NOTES_DIR]),
       \ "options": [
+        \ "--prompt", s:fzf_prompt,
         \ "--print-query",
         \ "--ansi",
         \ "--delimiter=:",
