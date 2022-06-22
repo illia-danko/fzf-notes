@@ -4,7 +4,8 @@ from sys import argv, stdin, stdout
 from os.path import join
 
 PURPLE = "\033[35m"
-WHITE_ON_BLACK = "\033[0;37;100m"
+BOLD = "\033[;1m"
+PREVIEW = "\033[48;2;44;49;58m"  #2c313a
 RESET = "\033[0;0m"
 
 
@@ -24,7 +25,7 @@ def notes_preview(filename, line, height):
             if line - linenum > (height / 2 - 1):
                 continue
             if linenum == line:
-                line_content = WHITE_ON_BLACK + line_content + RESET
+                line_content = BOLD + PREVIEW + line_content + RESET
             stdout.write(line_content)
 
 
