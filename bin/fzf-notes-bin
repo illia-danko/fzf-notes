@@ -3,9 +3,15 @@
 from sys import argv, stdin, stdout
 from os.path import join
 
+
+def rgb2int(rgb, sep):
+    v = int(rgb, 16)
+    return sep.join(map(str, [v >> 16, (v & 0xFF00) >> 8, v & 0xFF]))
+
+
 PURPLE = "\033[35m"
 BOLD = "\033[;1m"
-PREVIEW = "\033[48;2;60;56;54m"  # (gruvbox-dark)
+PREVIEW = "\033[48;2;{}m".format(rgb2int("3c3836", ";"))  # (gruvbox-dark)
 RESET = "\033[0;0m"
 
 
