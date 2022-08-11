@@ -1,3 +1,5 @@
+# Not maintened anymore. Moved to personal [dotfiles](https://github.com/elijahdanko/dotfiles)
+
 Quick access and manange text notes from vim/neovim and cli.
 
 # About
